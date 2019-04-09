@@ -1,6 +1,6 @@
 ### 小爱心是否点赞组件 `components/like`
 
-![](J:\syjwxxiaochengxu\reademe-images\aixin.jpg)
+![](./reademeimages/aixin.jpg)
 
 思路：
 
@@ -24,7 +24,7 @@ let behavior = like ? 'like' : 'cancel'
 
 ### 底部左右切换组件 ` components/navi`
 
-![](J:\syjwxxiaochengxu\reademe-images\navi.jpg)
+![](./reademeimages/navi.jpg)
 
 思路：
 
