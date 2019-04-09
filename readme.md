@@ -28,7 +28,7 @@ let behavior = like ? 'like' : 'cancel'
 
 思路：
 
-在`navi/index.js`中: 
+##### 在`navi/index.js`中: 
 
 ```js
 先定义哪些数据是外部传来的数据，哪些数据是私有数据
@@ -48,7 +48,7 @@ properties: {//外部传来的数据
 
 
 
-左箭头：
+#### 左箭头：
 
 >在navi/index.wxml中`<image bind:tap="onLeft" class="icon" src="{{latest?disLeftSrc:leftSrc}}"/>`
 >
@@ -68,7 +68,7 @@ properties: {//外部传来的数据
 >
 >
 
-右箭头：
+#### 右箭头：
 
 >在navi/index.wxml中`<image bind:tap="onRight" class="icon" src="{{first?disRightSrc:rightSrc}}"/>`
 >
@@ -86,7 +86,7 @@ properties: {//外部传来的数据
 >    }
 >```
 
-在`pages/classic`中：
+##### 在`pages/classic`中：
 
 >
 >
@@ -151,7 +151,7 @@ properties: {//外部传来的数据
 
 ### 优化缓存。解决每次触摸左右箭头都会频繁向服务器发送请求，这样非常耗性能，用户体验极差。解决方法，就是把第一次发送请求的数据都缓存到本地，再次触摸箭头时，会先查找本地缓存是否有数据，有就直接从缓存中读取数据，没有就在向服务器发送请求，这样利用缓存机制大大的提高了用户的体验。（但也有一部分是需要实时更新的，比如是否点赞的小爱心组件，需要每次都向服务器发送请求获取最新数据）
 
-在 models/classic.js 中：
+##### 在 models/classic.js 中：
 
 ```js
 1:
@@ -208,7 +208,7 @@ properties: {//外部传来的数据
 
 处理是否点赞小爱心组件的缓存问题：他不需要缓存，需要实时获取最新数据
 
-在 models/like.js 中：
+##### 在 models/like.js 中：
 
 ```js
 //编写一个获取点赞信息的方法，从服务器获取最新点赞信息的数据
@@ -222,7 +222,7 @@ properties: {//外部传来的数据
 
 ```
 
-在 pages/classic/classic.js 中：
+##### 在 pages/classic/classic.js 中：
 
 ```js
 //设置私有数据初始值
@@ -263,7 +263,7 @@ data: {
 
 -----------------------------------
 
-在 classic/music/index.js 中：
+##### 在 classic/music/index.js 中：
 
 解决切换期刊时，其他期刊也都是播放状态的问题。应该是，切换期刊时音乐就停止播放，回到默认不播放状态
 
@@ -271,7 +271,7 @@ data: {
 
  在 components/classic/music/inddex.js 中：
 
-方案一：
+##### 方案一：
 
 ```js
 
@@ -284,18 +284,19 @@ data: {
  // 在 pages/classic/classic.wxml 中
  //     <v-music wx:if="{{classic.type===200}}" img="{{classic.image}}" content="{{classic.content}}" src="{{classic.url}}" title="{{classic.title}}"/>
       
-> 知识点补充：
-wx:if vs hidden，和Vue框架的v-if和v-show 指令一样：
-wx:if 》他是惰性的，如果初始值为false框架什么也不做，如果初始值为true框架才会局部渲染。			true或false的切换就是从页面中局部加入或移除的过程。wx:if 有更高的切换消耗，			如果在运行时条件不大可能改变则 wx:if 较好。生命周期会重新执行。
-hidden 》组件始终会被渲染，只是简单的控制显示与隐藏。hidden 有更高的初始渲染消耗。如果			需要频繁切换的情景下，用 hidden 更好。生命周期不会重新执行。
-
 ```
 
-方案二：（推荐使用）
+#### 知识点补充：
+
+> wx:if vs hidden，和Vue框架的v-if和v-show 指令一样：
+> wx:if 》他是惰性的，如果初始值为false框架什么也不做，如果初始值为true框架才会局部渲染。true或false的切换就是从页面中局部加入或移除的过程。wx:if 有更高的切换消耗，如果在运行时条件不大可能改变则 wx:if 较好。生命周期会重新执行。
+> hidden 》组件始终会被渲染，只是简单的控制显示与隐藏。hidden 有更高的初始渲染消耗。如果需要频繁切换的情景下，用 hidden 更好。生命周期不会重新执行。
+
+##### 方案二：（推荐使用）
 
 解决切换期刊时音乐可以当做背景音乐一直播放，而其他的期刊是默认是不播放状态
 
- 在 components/classic/music/inddex.js 中：
+##### 在 components/classic/music/inddex.js 中：
 
 ```js
 //为了保证期刊在切换时，背景音乐可以一直播放，就要去除掉 mMgr.stop() 事件方法
@@ -360,9 +361,9 @@ _recoverStatus: function() {
 
 
 
-播放动画旋转效果制作：
+### 播放动画旋转效果制作：
 
-在 components/classic/music/index.wxss 中：
+##### ##### 在 components/classic/music/index.wxss 中：
 
 ```js
 //定义帧动画用CSS3
@@ -383,24 +384,26 @@ _recoverStatus: function() {
   }
 }
 
-//补充css3知识点：
-》使用CSS3开启GPU硬件加速提升网站动画渲染性能：
-为动画DOM元素添加CSS3样式-webkit-transform:transition3d(0,0,0)或-webkit-transform:translateZ(0);，这两个属性都会开启GPU硬件加速模式，从而让浏览器在渲染动画时从CPU转向GPU，其实说白了这是一个小伎俩，也可以算是一个Hack，-webkit-transform:transition3d和-webkit-transform:translateZ其实是为了渲染3D样式，但我们设置值为0后，并没有真正使用3D效果，但浏览器却因此开启了GPU硬件加速模式。
-》这种GPU硬件加速在当今PC机及移动设备上都已普及，在移动端的性能提升是相当显著地，所以建议大家在做动画时可以尝试一下开启GPU硬件加速。
-
-》适用情况
-通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围：
-
-使用很多大尺寸图片(尤其是PNG24图)进行动画的页面。 
-页面有很多大尺寸图片并且进行了css缩放处理，页面可以滚动时。 
-使用background-size:cover设置大尺寸背景图，并且页面可以滚动时。(详见:https://coderwall.com/p/j5udlw) 
-编写大量DOM元素进行CSS3动画时(transition/transform/keyframes/absTop&Left) 
-使用很多PNG图片拼接成CSS Sprite时 
-》总结
-　　通过开启GPU硬件加速虽然可以提升动画渲染性能或解决一些棘手问题，但使用仍需谨慎，使用前一定要进行严谨的测试，否则它反而会大量占用浏览网页用户的系统资源，尤其是在移动端，肆无忌惮的开启GPU硬件加速会导致大量消耗设备电量，降低电池寿命等问题。
 ```
 
-在 components/classic/music/index.wxml 中：
+### 补充css3知识点：
+
+> 》使用CSS3开启GPU硬件加速提升网站动画渲染性能：
+> 为动画DOM元素添加CSS3样式-webkit-transform:transition3d(0,0,0)或-webkit-transform:translateZ(0);，这两个属性都会开启GPU硬件加速模式，从而让浏览器在渲染动画时从CPU转向GPU，其实说白了这是一个小伎俩，也可以算是一个Hack，-webkit-transform:transition3d和-webkit-transform:translateZ其实是为了渲染3D样式，但我们设置值为0后，并没有真正使用3D效果，但浏览器却因此开启了GPU硬件加速模式。
+> 》这种GPU硬件加速在当今PC机及移动设备上都已普及，在移动端的性能提升是相当显著地，所以建议大家在做动画时可以尝试一下开启GPU硬件加速。
+>
+> 》适用情况
+> 通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围：
+>
+> 使用很多大尺寸图片(尤其是PNG24图)进行动画的页面。 
+> 页面有很多大尺寸图片并且进行了css缩放处理，页面可以滚动时。 
+> 使用background-size:cover设置大尺寸背景图，并且页面可以滚动时。(详见:https://coderwall.com/p/j5udlw) 
+> 编写大量DOM元素进行CSS3动画时(transition/transform/keyframes/absTop&Left) 
+> 使用很多PNG图片拼接成CSS Sprite时 
+> 》总结
+> 　　通过开启GPU硬件加速虽然可以提升动画渲染性能或解决一些棘手问题，但使用仍需谨慎，使用前一定要进行严谨的测试，否则它反而会大量占用浏览网页用户的系统资源，尤其是在移动端，肆无忌惮的开启GPU硬件加速会导致大量消耗设备电量，降低电池寿命等问题。
+
+##### 在 components/classic/music/index.wxml 中：
 
 ```js
 //为图片加上播放就旋转的类，不播放 就就为空字符串
@@ -412,7 +415,7 @@ _recoverStatus: function() {
 
 用 slot 插槽，解决在公用组件中可以加入其他修饰内容问题。其实就是，在定义公用组件时，用 slot 命名插槽占位，在父组件调用时可以传递需要的内容补位。和Vue的指令 v-slot 相似。
 
-在 components/tag/index.js 中：
+##### 在 components/tag/index.js 中：
 
 ```js
 //在 Component 中加入
@@ -424,7 +427,7 @@ _recoverStatus: function() {
 
 
 
-在定义的公共组件 components/tag/index.wxml 中：
+##### 在定义的公共组件 components/tag/index.wxml 中：
 
 ```html
 //定义几个命名插槽，供父元素占位使用
@@ -435,7 +438,7 @@ _recoverStatus: function() {
 </view>
 ```
 
-在 pages/detail/detail.json 中：
+##### 在 pages/detail/detail.json 中：
 
 ```json
 //注册并使用组件
@@ -446,7 +449,7 @@ _recoverStatus: function() {
 }
 ```
 
-在 pages/detail/detail.wxml 中：
+##### 在 pages/detail/detail.wxml 中：
 
 ```html
 //使用组件v-tag，补位命名插槽
@@ -461,11 +464,11 @@ _recoverStatus: function() {
 
 ------------------------------------------
 
-在 `pages/detail/detail` 中，解决评论内容自定义组件 v-tag 评论前两条显示两种颜色的做法：
+##### 在 `pages/detail/detail` 中，解决评论内容自定义组件 v-tag 评论前两条显示两种颜色的做法：
 
-第一种方法：（推荐使用）
+###### 第一种方法：（推荐使用）
 
-在  pages/detail/detail.wxss  中：
+##### 在  pages/detail/detail.wxss  中：
 
 ```css
 /* v-tag是自定义组件，不能使用css3,在微信小程序中，只有内置组件才可以用css3 */
@@ -479,11 +482,11 @@ _recoverStatus: function() {
 }
 ```
 
-第二种方法：
+###### 第二种方法：
 
 定义外部样式方法，像父子组件传递属性一样，传递样式类
 
-在 detail.wxss 中：
+##### 在 detail.wxss 中：
 
 ```css
 /* 定义外部样式 */
@@ -497,7 +500,7 @@ _recoverStatus: function() {
 }
 ```
 
-在 detail.wxml 中：
+##### 在 detail.wxml 中：
 
 ```html
 /*将自定义的样式类通过属性传值的方式传递给自定义子组件v-tag */
@@ -506,7 +509,7 @@ _recoverStatus: function() {
 </v-tag>
 ```
 
-在 components/tag/index.js 中：
+##### 在 components/tag/index.js 中：
 
 ```js
 //将外部传进来的样式写在Component中，声明一下
@@ -517,7 +520,7 @@ _recoverStatus: function() {
 
 
 
-在 components/tag/index.wxml 中：
+##### 在 components/tag/index.wxml 中：
 
 ```html
 // 把父组件传递过来的类 tag-calss 写在 class 类上
@@ -530,7 +533,7 @@ _recoverStatus: function() {
 
 ----------------------------------------
 
-解决服务器返回的内容简介有 \n 换行符的问题：
+### 解决服务器返回的内容简介有 \n 换行符的问题：
 
 原因：
 
@@ -542,7 +545,7 @@ _recoverStatus: function() {
 
 WXS：WXS（WeiXin Script）是小程序的一套脚本语言，结合 `WXML`，可以构建出页面的结构。和Vue 中的 Vue.filter(过滤器名，过滤器方法) 很相似。WXS 与 JavaScript 是不同的语言，有自己的语法，并不和 JavaScript 一致。由于运行环境的差异，在 iOS 设备上小程序内的 WXS 会比 JavaScript 代码快 2 ~ 20 倍。在 android 设备上二者运行效率无差异。
 
-在 utils/filter.wxs 中：
+##### 在 utils/filter.wxs 中：
 
 ```js
 // 定义过滤器函数，处理服务器返回的数据，将 \\n 变成 \n
@@ -560,7 +563,7 @@ var format = function(text) {
 module.exports.format = format
 ```
 
-在  pages/detail/detail.wxml 中：
+##### 在  pages/detail/detail.wxml 中：
 
 ```html
 //引入
@@ -571,9 +574,9 @@ module.exports.format = format
 
 -----------------
 
-解决解决服务器返回的内容简介首行缩进的问题：
+### 解决解决服务器返回的内容简介首行缩进的问题：
 
-在  pages/detail/detail.wxss 中：
+##### 在  pages/detail/detail.wxss 中：
 
 ```css
 //对需要缩进的段落前加以下的类，但这时只有第一段缩进
@@ -583,7 +586,7 @@ module.exports.format = format
 }
 ```
 
-在 utils/filter.wxs 中：
+##### 在 utils/filter.wxs 中：
 
 ```js
 //用转义字符 &nbsp; 作为空格，但这时小程序会以&nbsp;样式输出，不是我们想要的效果
@@ -598,7 +601,7 @@ var format = function(text) {
 module.exports.format = format
 ```
 
-在  pages/detail/detail.wxml 中：
+##### 在  pages/detail/detail.wxml 中：
 
 ```html
 //加入属性  decode="{{true}}"，首行缩进问题解决
@@ -607,9 +610,9 @@ module.exports.format = format
 
 ------------------------------------
 
-解决短评过多让其只显示一部分的问题：
+### 解决短评过多让其只显示一部分的问题：
 
-在 utils/filter.wxs 中：
+##### 在 utils/filter.wxs 中：
 
 ```js
 //添加一个限制短评长度的过滤器，并导出
@@ -624,7 +627,7 @@ module.exports = {
 };
 ```
 
-在  pages/detail/detail.wxml 中：
+##### 在  pages/detail/detail.wxml 中：
 
 ```html
 <wxs src="../../utils/filter.wxs" module="util"/>
@@ -643,7 +646,7 @@ module.exports = {
 
 ```
 
-在  pages/detail/detail.wxml 中：进一步优化
+##### 在  pages/detail/detail.wxml 中：进一步优化
 
 ```html
 // 由于 <v-tag tag-class="{{index===0?'ex-tag1':''||index===1?'ex-tag2':''}}" text="{{item.content}}"> 过于乱，改写成wxs形式：
@@ -673,13 +676,13 @@ module.exports = {
 
 ---------------------------
 
-详情最底部短评的实现：
+## 详情最底部短评的实现：
 
 用户提交评论内容：
 
 点击标签向服务器提交评论内容：
 
-在 components\tag\index.wxml 中：
+##### 在 components\tag\index.wxml 中：
 
 ```html
 //为短评组件绑定出没事件 onTap
@@ -690,7 +693,7 @@ module.exports = {
 </view>
 ```
 
-在 components\tag\index.js 中：
+##### 在 components\tag\index.js 中：
 
 ```js
 // 当触摸短评小标签时，触发一个自定义事件，将短评内容传进去，公父组件调用自定义事件tapping
@@ -704,7 +707,7 @@ module.exports = {
   }
 ```
 
-在 pages\detail\detail.wxml  中：
+##### 在 pages\detail\detail.wxml  中：
 
 ```html
 //在父组件中调用子组件的自定义tapping事件，并且触发事件onPost
@@ -713,7 +716,7 @@ module.exports = {
 </v-tag>
 ```
 
-在 models\book.js 中：
+##### 在 models\book.js 中：
 
 ```js
 //调取新增短评的接口
@@ -730,7 +733,7 @@ module.exports = {
   }
 ```
 
-在 pages\detail\detail.js 中：
+##### 在 pages\detail\detail.js 中：
 
 ```js
 // 触摸tag组件会触发，input输入框也会触发事件onPost
@@ -767,14 +770,14 @@ onPost(event) {
 
 ```
 
-在 pages\detail\detail.wxml  中：
+##### 在 pages\detail\detail.wxml  中：
 
 ```html
 // input有自己的绑定事件bindconfirm，会调用手机键盘完成按键
 <input bindconfirm="onPost"  type="text" class="post" placeholder="短评最多12个字"/>
 ```
 
-在 pages\detail\detail.js 中：
+##### 在 pages\detail\detail.js 中：
 
 点击标签向服务器提交评论内容完成：
 
@@ -809,11 +812,11 @@ onPost(event) {
   },
 ```
 
-细节处理：
+### 细节处理：
 
 如果没有短评显示问题：
 
-在 pages\detail\detail.wxml 中：
+##### 在 pages\detail\detail.wxml 中：
 
 ```html
 //在短评后加上还没有短评标签，如果没有comments短评就不显示还没有短评标签
@@ -831,9 +834,9 @@ onPost(event) {
 
 由于都是利用promise异步加载数据，这时取消loading显示应该加到每个promise后，显然不符合需求。如果利用回调函数机制，先加载1在一的回调函数里在加载2依次顺序加载，在最后一个回调函数中写取消loading操作，这样的方式虽然可以实现，但非常耗时间，请求是串行的，假如一个请求需要花费2s中，发三个请求就要花费6秒，非常耗时，而且还会出现回调地狱的现象，不推荐使用。
 
-结局方法：在Promise中，有一个Promise.all()方法就可以解决。
+解决方法：在Promise中，有一个Promise.all()方法就可以解决。
 
-补充知识点：
+### 补充知识点：
 
 > **Promise.all(iterable)** 方法返回一个 [`Promise`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise) 实例，此实例在 `iterable` 参数内所有的 `promise` 都“完成（resolved）”或参数中不包含 `promise` 时回调完成（resolve）；如果参数中  `promise` 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 `promise` 的结果。简单来说就是：只要有一个数组里的promise获取失败就调用reject回调，只有全部数组里的promise都成功才调用resolve回调。
 >
@@ -841,7 +844,7 @@ onPost(event) {
 
 
 
-在 pages\detail\detail.js 中：
+##### 在 pages\detail\detail.js 中：
 
 ```js
 //用了 Promise.all(iterable) 方法就不用写三个Promise方法分别来更新数据了，可以简写成一个all方法再返回的成功的promise中调用setData(),更新请求回的数据
@@ -875,11 +878,11 @@ onLoad: function(options) {
 
 ------------------------------------
 
-图书的搜索：
+## 图书的搜索：
 
 高阶组件：如果一个组件里面的内容比较复杂，包含大量的业务
 
-知识点补充：
+### 知识点补充：
 
 >工作中我们通常把业务处理逻辑写在models中：
 >
@@ -891,9 +894,9 @@ onLoad: function(options) {
 >
 >
 
-在 components\search\index 中：
+##### 在 components\search\index 中：
 
-处理历史搜索和热门搜索:
+### 处理历史搜索和热门搜索:
 
 > 历史搜索：将历史搜索关键字写入缓存中，在从缓存中获取历史搜索关键字。
 >
@@ -901,7 +904,7 @@ onLoad: function(options) {
 >
 >  GET      /book/hot_list
 
-将业务逻辑写在 models\keyword.js 中：
+##### 将业务逻辑写在 models\keyword.js 中：
 
 ```js
 //首先从缓存中获取历史搜索关键字数组，判断获取的数组是否为空，如果为空，为了防止报错就返回空数组；如果不为空就直接返回获取的数组。
@@ -946,14 +949,14 @@ class KeywordModel {
 export {KeywordModel}
 ```
 
-在 components\search\index.wxml 中：
+##### 在 components\search\index.wxml 中：
 
 ```html
 //为input输入框绑定onConfirm事件
 <input bind:confirm="onConfirm" type="text" class="bar" placeholder-class="in-bar" placeholder="书籍名" auto-focus="true"/>
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 // onConfirm事件执行，调用将输入的内容添加到缓存中的方法Keywordmodel.addToHistory(word)，就可以将历史关键字添加到缓存中
@@ -971,7 +974,7 @@ methods: {
   }
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //将历史搜索的内容从缓存中取出来
@@ -988,7 +991,7 @@ data: {
   },
 ```
 
-在 components\search\index.json 中：
+##### 在 components\search\index.json 中：
 
 ```json
 //注册引用小标签 tag 组件，组件中也可以引入其他组件
@@ -997,7 +1000,7 @@ data: {
   }
 ```
 
-在 components\search\index.wxml 中：
+##### 在 components\search\index.wxml 中：
 
 ```html
 // 遍历historyWords数组中的每一项，呈现在页面中
@@ -1014,9 +1017,9 @@ data: {
     </view>
 ```
 
-热门搜索：
+### 热门搜索：
 
-在 models\keyword.js 中：
+##### 在 models\keyword.js 中：
 
 ```js 
 // 引入自己封装的API请求方法
@@ -1032,7 +1035,7 @@ import {
   }
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //定义组件初始值，通过调用传进来的getHot方法获取热门搜索关键字，并更新到初始值hotWords中
@@ -1056,7 +1059,7 @@ data: {
   },
 ```
 
-在 components\search\index.wxml 中：
+##### 在 components\search\index.wxml 中：
 
 ```html
 //将从服务器获取到的hotWords数组遍历，呈现到页面中
@@ -1073,7 +1076,7 @@ data: {
     </view>
 ```
 
-注意点：
+### 注意点：
 
 >由于在  components\search\index.js 调用了 Keywordmodel.getHot()方法，这个方法是和服务器相关联的，这样做，会使组件复用性降低。
 >
@@ -1081,7 +1084,7 @@ data: {
 >
 >
 
-在 models\book.js 中：
+##### 在 models\book.js 中：
 
 ```js
 //定义search函数，封装向服务器发送请求功能
@@ -1097,7 +1100,7 @@ data: {
   }
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 // 导入并实例化BookModel类，负责向服务器发送搜索图书的请求；在data中声明私有变量 dataArray 数组，为搜索图书当summary=1,返回概要数据。在用户输入完成点击完成时，调用bookmodel.search方法，并更新数据到dataArray中。
@@ -1132,7 +1135,7 @@ data: {
     }
 ```
 
-在 components\search\index.wxml 中：
+##### 在 components\search\index.wxml 中：
 
 解析得到的搜索数据，并遍历呈现到页面中：
 
@@ -1146,7 +1149,7 @@ data: {
 
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //在data私有属性中定义searching变量来控制显隐，默认为false；在触发onConfirm事件中， 为了用户体验好，应该点击完立即显示搜索页面，并将searching改为true，让其搜索的内容显示到页面上
@@ -1179,9 +1182,9 @@ data: {
     }
 ```
 
-实现 搜索框里的 x 按钮功能：
+### 实现 搜索框里的 x 按钮功能：
 
-在  components\search\index.js 中:
+##### 在  components\search\index.js 中:
 
 ```js
 // 在 components\search\index.wxml 中，为 x 图片绑定触摸时触发的 onDelete 事件<image bind:tap="onDelete" class="cancel-img" src="images/cancel.png"/>
@@ -1196,9 +1199,9 @@ onDelete(event){
 
 ```
 
-实现 用户点击历史搜索和热门搜索里的标签也能跳转到相应的搜索到的结果显示页面：只要监听到用户点击标签的事件就可以实现
+### 实现 用户点击历史搜索和热门搜索里的标签也能跳转到相应的搜索到的结果显示页面：只要监听到用户点击标签的事件就可以实现
 
-在 components\search\index.js 中:
+##### 在 components\search\index.js 中:
 
 ```js
 // 在 components\search\index.wxml 中：绑定v-tag组件自定事件tapping触发onConfirm事件：`<v-tag bind:tapping="onConfirm" text='{{item}}'/>`
@@ -1226,9 +1229,9 @@ onDelete(event){
     }
 ```
 
-解决再点击tag标签搜索时应该在input输入框中显示书名的问题：
+### 解决再点击tag标签搜索时应该在input输入框中显示书名的问题：
 
-在 components\search\index.js 中:
+##### 在 components\search\index.js 中:
 
 ```js
 //通过数据绑定给input输入框绑定value="{{q}}"
@@ -1265,13 +1268,13 @@ data: {
     }
 ```
 
-实现数据分页加载功能：
+### 实现数据分页加载功能：
 
 第一种方法：用微信小程序提供的内置组件 `scroll-view`   。
 
 第二种方法：用 pages 里的 页面上拉触底事件的处理函数 onReachBottom。：
 
-在 pages\book\book.js 中：
+##### 在 pages\book\book.js 中：
 
 ```js
 //在 data里设置私有变量more为false，代表的是是否需要加载更多数据，默认是不加载
@@ -1315,7 +1318,7 @@ data: {
 >
 > 解决方法：用随机字符串触发observer函数，因为observer函数的执行必须是监听的数据发生改变才会执行此函数。和Vue中的watch很相似。
 
-在  pages\book\book.js 中：
+##### 在  pages\book\book.js 中：
 
 ```js
 //将私有数据data中的more改为空字符串
@@ -1352,9 +1355,9 @@ export {
 
 ```
 
-在 components\search\index.js  中:
+##### 在 components\search\index.js  中:
 
-实现加载更多数据：
+### 实现加载更多数据：
 
 ```js
 // 和onConfirm一样都需要调取search方法返回当summary=1,返回概要数据:并更新数据到dataArray中
@@ -1374,7 +1377,7 @@ export {
 
 ```
 
-细节完善：
+### 细节完善：
 
 ```js
 //如果关键字q初始没有值就直接返回什么也不做
@@ -1422,11 +1425,11 @@ _load_more() {
        
 ```
 
-进一步封装优化，组件行为逻辑抽象分页行为，顺便解决 是否还有更多数据的问题：
+### 进一步封装优化，组件行为逻辑抽象分页行为，顺便解决 是否还有更多数据的问题：
 
 在 components中，创建并封装一个公用行为和方法的组件pagination：
 
-在 components\behaviors\pagination.js 中：
+#####在 components\behaviors\pagination.js 中：
 
 ```js
 //封装一个公用行为和方法的类paginationBev
@@ -1473,7 +1476,7 @@ export {
 
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 // 先导入封装的公用行为方法，再进一步改写_load_more和onConfirm方法，将写好的公用方法用上
@@ -1530,11 +1533,11 @@ import {
     }
 ```
 
-但这时又会出现一个小问题：就是每次点x回退到搜索页面时，再次搜索同样的书籍时，会存在以前请求的数据没有清空又会重新向服务器发送请求，就会出现更多的重复数据
+### 但这时又会出现一个小问题：就是每次点x回退到搜索页面时，再次搜索同样的书籍时，会存在以前请求的数据没有清空又会重新向服务器发送请求，就会出现更多的重复数据
 
 解决方法：就是在每次点x时，清空本次搜索的数据也就是Behavior里面的数据状态 ，上一次搜索的数据才不会影响本次搜索
 
-在 components\behaviors\pagination.js 中：
+##### 在 components\behaviors\pagination.js 中：
 
 ```js
 //加入清空数据，设置初始值的方法
@@ -1544,7 +1547,7 @@ initialize() {
     }
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //在触发onConfirm函数时调用this.initialize()方法先清空上一次搜索的数据在加载
@@ -1574,9 +1577,9 @@ onConfirm(event) {
     }
 ```
 
-搜索代码重构：增强代码可阅读性：
+##### 搜索代码重构：增强代码可阅读性：
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //多封装一些小的函数
@@ -1736,11 +1739,11 @@ Component({
 
 ```
 
-小问题：当加载的时候突然断网，数据还没加载完，等在恢复网络的时候，就不能继续向服务器发送请求了。问题存在的原因在于出现死锁，只有请求成功才会解锁继续发送请求，如果请求失败，就不会解锁什么也做不了。
+### 小问题：当加载的时候突然断网，数据还没加载完，等在恢复网络的时候，就不能继续向服务器发送请求了。问题存在的原因在于出现死锁，只有请求成功才会解锁继续发送请求，如果请求失败，就不会解锁什么也做不了。
 
 解决方法：
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 //只要在请求失败的回调函数里加上解锁就可以了
@@ -1756,11 +1759,11 @@ Component({
       }
 ```
 
-加入loading效果，提升用户体验：
+### 加入loading效果，提升用户体验：
 
 先创建一个loading公共组件，只需写简单的样式效果就行，在search组件中注册并使用。
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 // 在 components\search\index.wxml 中：加入两个loading组件。 第一个在中间显示，获取搜获数据中；第二个在底部显示，数据加载更多时显示
@@ -1804,7 +1807,7 @@ onConfirm(event) {
     },
 ```
 
-知识点补充：
+### 知识点补充：
 
 >特别注意setData与直接赋值的区别:
 >
@@ -1814,9 +1817,9 @@ onConfirm(event) {
 >
 >
 
-空搜索结果的处理：
+### 空搜索结果的处理：
 
-在 components\behaviors\pagination.js 中：
+##### 在 components\behaviors\pagination.js 中：
 
 ```js
 //在公共行为中加入noneResult：false，控制是否显示没有得到想要的搜索结果，在setTotal方法中，如果返回的结果为0，就是没有得到想要的搜索结果。将noneResult：true显示出来。在initialize设置初始值并清空数据函数，再将noneResult：false，取消显示。
@@ -1849,14 +1852,14 @@ onConfirm(event) {
   
 ```
 
-在 components\search\index.wxml 中：
+##### 在 components\search\index.wxml 中：
 
 ```html
 //加入空搜索显示的结果结构
 <text wx:if="{{ noneResult}}" class="empty-tip">没有搜索到书籍</text>
 ```
 
-在 components\search\index.js 中：
+##### 在 components\search\index.js 中：
 
 ```js
 // 触摸搜索图片里的x回到原来输入搜索的页面，先回到初始值，再将搜索组件隐藏。在onConfirm中，不用等数据加载完，输入完成后就把输入的内容显示在输入框中。
@@ -1886,9 +1889,9 @@ onDelete(event) {
   
 ```
 
-处理一个小问题：就是在热门搜索里搜索王小波，返回的搜索结果页面每本书里会显示有喜欢字样，去掉喜欢字样。
+### 处理一个小问题：就是在热门搜索里搜索王小波，返回的搜索结果页面每本书里会显示有喜欢字样，去掉喜欢字样。
 
-在 components\book\index.js 中：
+##### 在 components\book\index.js 中：
 
 ```js
 //在 components\search\index.wxml 中:
@@ -1911,9 +1914,9 @@ properties: {
   </view>
 ```
 
-对 search 组件进一步优化，将锁提取到分页行为中：
+### 对 search 组件进一步优化，将锁提取到分页行为中：
 
-在 components\behaviors\pagination.js 中：
+##### 在 components\behaviors\pagination.js 中：
 
 ```js
 //把在components\search\index.js中的三个锁方法提取到公用行为方法中，在公用行为方法中，在data里添加loading：false属性。在initialize函数中，把loading：false也加进去即可
@@ -1939,7 +1942,7 @@ properties: {
     },
 ```
 
-两种方法监听移动端触底的操作：
+### 两种方法监听移动端触底的操作：
 
 scroll-view 或 Pages 里的 onReachBottom。如果要想用scroll-view把view组件换成scroll-view就可以。
 
@@ -2080,3 +2083,14 @@ methods: {
 #### 在`components/navi`中：
 
 > 点击的左右小三角要足够大，用户触摸时才能点击到。两种方法，第一种是再切图时，切得大一些；第二种是，自己编写代码控制操作区域
+
+
+
+
+
+-----------------------
+
+-------------------------------------------
+
+完成效果展示：
+
