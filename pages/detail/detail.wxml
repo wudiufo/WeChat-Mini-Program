@@ -12,7 +12,7 @@
 
   <view class="sub-container">
     <text class="headline">短评</text>
-    <text class="shadow" wx:if="{{comments===false}}">还没有短评</text>
+    <text class="shadow" wx:if="{{!comments.length}}">还没有短评</text>
 
     <view class="comment-container">
       <block wx:for="{{util.limit(comments,10)}}" wx:key="content">
@@ -64,7 +64,7 @@
 <!-- 触摸弹出的评论输入框 -->
 <view class="posting-container" wx:if="{{posting}}">
   <view class="post-header">
-    <text wx:if="{{comments===true}}">尽可点击标签+1</text>
+    <text wx:if="{{comments.length}}">尽可点击标签+1</text>
     <text wx:else>暂无短评</text>
 
     <text bind:tap="onCancl" class="cancel">取消</text>

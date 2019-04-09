@@ -818,10 +818,10 @@ onPost(event) {
 ```html
 //在短评后加上还没有短评标签，如果没有comments短评就不显示还没有短评标签
 <text class="headline">短评</text>
-<text class="shadow" wx:if="{{comments===false}}">还没有短评</text>
+<text class="shadow" wx:if="{{!comments.length}}">还没有短评</text>
 
 //在尽可点击标签+1后加上暂无评论标签，如果没有comments短评就不显示暂无评论标签
-<text wx:if="{{comments===false}}">尽可点击标签+1</text>
+<text wx:if="{{!comments.length}}">尽可点击标签+1</text>
 <text wx:else>暂无短评</text>
 ```
 
