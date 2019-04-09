@@ -1,0 +1,25 @@
+/* components/like/like-cmp.wxss */
+
+.container {
+  /* 变成行内元素，自适应内容宽度 */
+  display: inline-flex;
+  flex-direction: row;
+  /* 必须指定宽度，否则会出现移动 */
+  width: 90rpx;
+  padding: 10rpx;
+}
+
+.container text {
+  font-size: 24rpx;
+  color: #bbb;
+  /* 消除数字上下空白2px */
+  line-height: 24rpx;
+  position: relative;
+  bottom: 10rpx;
+  left: 6rpx;
+}
+
+.container image {
+  width: 32rpx;
+  height: 28rpx;
+}

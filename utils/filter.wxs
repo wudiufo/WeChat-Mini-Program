@@ -1,0 +1,25 @@
+// WXS（WeiXin Script）是小程序的一套脚本语言，结合 WXML，可以构建出页面的结构。WXS 与 JavaScript 是不同的语言，有自己的语法，并不和 JavaScript 一致。由于运行环境的差异，在 iOS 设备上小程序内的 WXS 会比 JavaScript 代码快 2 ~ 20 倍。在 android 设备上二者运行效率无差异。
+
+
+// 定义过滤器函数，处理服务器返回的数据，将 \\n 变成 \n
+var format = function(text) {
+  console.log(text)
+    // 会打印两次，undefined和请求得到的数据，因为第一次初始时text为null，发送请求得到数据后调用setData更新数据一次
+  if (!text) {
+    return
+  }
+  var reg = getRegExp('\\\\n', 'g')
+  return text.replace(reg, '\n&nbsp;&nbsp;&nbsp;&nbsp;')
+}
+
+// 限制短评的长度的过滤器
+var limit = function(array, length) {
+  return array.slice(0, length)
+}
+
+
+
+module.exports = {
+  format: format,
+  limit: limit
+};

@@ -1,0 +1,46 @@
+.container {
+  height: 60rpx;
+  /* 让其变为行内元素，宽度自适应 */
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.plain {
+  font-size: 32rpx;
+}
+
+.index {
+  font-size: 60rpx;
+  line-height: 60rpx;
+  font-weight: 800;
+  margin-right: 14rpx;
+}
+
+.line {
+  height: 44rpx;
+  margin-right: 14rpx;
+  border-left: 1px solid black;
+}
+
+.index-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.data-container {
+  height: 60rpx;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rpx;
+}
+
+.month {
+  font-size: 24rpx;
+  line-height: 24rpx;
+  margin-right: 2rpx;
+}
+
+.year {
+  font-size: 20rpx;
+}
